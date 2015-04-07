@@ -1,0 +1,56 @@
+<div class="row">
+	<div class="col-sm-4 col-sm-offset-4">
+		<a href="#" class="btn btn-default btn-lg" role="button">Back!</a>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-4 col-sm-offset-4">
+		<h2 ng-bind-html="furigana(card.question)"></h2>
+		<p>({{card.questionType}} -> {{card.answerType}})</p>
+		<button ng-hide="showAnswers" type="button" class="btn btn-danger pull-right btn-xs" ng-click="deleteCard()" ng-disabled="saving">Delete Card</button>
+
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Answer</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="answer in card.answers track by $index">
+					<td><input class="form-control" type="text" ng-model="card.answers[$index]" ng-change="updateCard()"></td>
+					<td><button type="button" class="btn btn-danger btn-xs" ng-click="deleteAnswer($index)" ng-disabled="saving">Delete</button></td>
+				</tr>
+				<tr>
+					<td><input class="form-control" type="text" ng-model="newAnswer"></td>
+					<td><button type="button" class="btn btn-success btn-xs" ng-click="addAnswer()" ng-disabled="saving">Add</button></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<hr/>
+
+		<h2>Change Priority</h2>
+		<div ng-repeat="item in otherCards()">
+			<div ng-if="item.isCard">
+				<div>
+					<strong>
+						{{item.index+1}}
+						<span ng-bind-html="furigana(item.card.question)"></span>
+						->
+						<span ng-bind-html="furigana(item.card.answers[0])"></span>
+					</strong>
+					({{item.card.questionType}}
+					->
+					{{item.card.answerType}})
+				</div>
+			</div>
+			<div ng-if="item.isButton">
+				<div><button type="button" class="btn btn-info btn-xs" ng-click="changePriorityBetween(item.lowerCard, item.upperCard)">Here</button></div>
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="mrFlashcard" manifest="mrflashcard.appcache">
+	<head>
+		<title>mrFlashcard 2.0</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<script src="http://ftlabs.github.io/fastclick/lib/fastclick.js"></script><!-- TODO host locally -->
+
+		<script src="js/lib/pouchdb-3.2.2-pre.js"></script>
+		<script src="js/lib/angular-1.2.22.min.js"></script>
+		<script src="js/lib/angular-route-1.2.22.min.js"></script>
+		<script src="js/lib/angular-sanitize-1.2.22.min.js"></script>
+		<!--<script src="js/lib/angular-ui.keypress.js"></script>-->
+		<script src="js/lib/furigana.js"></script>
+		<link rel="stylesheet" href="css/lib/bootstrap-3.2.0.min.css">
+
+		<script src="js/core.js"></script>
+		<script src="js/controllers/main.js"></script>
+		<script src="js/controllers/study.js"></script>
+		<script src="js/controllers/addCards.js"></script>
+		<script src="js/controllers/editCard.js"></script>
+		<script src="js/app.js"></script>
+
+	</head>
+	<body ng-controller="MainController">
+		<div ng-show="booting">
+			Booting...
+		</div>
+		<div ng-show="syncing">
+			Syncing...
+			{{syncProgress()}}
+		</div>
+		<div class="container" ng-hide="booting">
+
+			<div ng-view></div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<button type="button" class="btn btn-default btn-xs" ng-click="addCards()">Add Cards</button>
+
+					<br/>
+
+					Remote CouchDB Database URL (must be CORS-enabled):
+					<input class="form-control input-sm" ng-model="remoteDbUrl" ng-disabled="syncing">
+					<button ng-disabled="syncing" type="button" class="btn btn-default btn-xs" ng-click="sync()">Sync</button>
+
+					<br/>
+					Local Database:
+					<button ng-disabled="syncing" type="button" class="btn btn-default btn-xs" ng-click="resetLocalDb()">Reset</button>
+
+				</div>
+			</div>
+
+		</div>
+		<div class="container"><div class="row">
+			<div class="col-xs-12">
+				v2.0-beta-89
+			</div>
+		</div></div>
+		<input type="file" id="file_upload" style="display:none;">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/2.8.1/d3.v2.min.js"></script><!--For CSV Parsing; TODO upgrade-->
+
+	</body>
+</html>

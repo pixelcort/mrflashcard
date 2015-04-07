@@ -1,0 +1,60 @@
+<div class="row">
+	<div class="col-md-4 col-md-offset-4">
+		<div ng-hide="card || noCard">
+			Loading next card...
+		</div>
+		<div ng-show="noCard">
+			No Card found!
+			<button ng-disabled="updatingIsDue" ng-click="updateIsDue()" type="button" class="btn btn-primary btn-lg btn-block">
+				Check Again
+			</button>
+		</div>
+		<div ng-show="card">
+			<h2 ng-bind-html="furigana(card.question)"></h2>
+			<!-- <div ng-repeat="thing in prettyEverything()">
+				<strong>{{thing[0]}}</strong>
+				<em>{{thing[1]}}</em>
+			</div> -->
+			<p>({{card.questionType}} -> {{card.answerType}})</p>
+			<button ng-if="!showingAnswers" ng-click="showAnswers()" type="button" class="btn btn-primary btn-lg btn-block" ui-keydown="showAnswers() on 1">
+				Show Answers
+			</button>
+			<div ng-if="showingAnswers">
+				<ul>
+					<li ng-repeat="answer in card.answers" ng-bind-html="furigana(answer)">
+				</ul>
+
+				<div class="btn-group btn-group-justified">
+					<div class="btn-group btn-group-lg"><button type="button" class="btn btn-danger"  ng-click="scoreCard(0)">1</button></div>
+					<div class="btn-group btn-group-lg"><button type="button" class="btn btn-warning" ng-click="scoreCard(3)">2</button></div>
+					<div class="btn-group btn-group-lg"><button type="button" class="btn btn-success" ng-click="scoreCard(4)">3</button></div>
+					<div class="btn-group btn-group-lg"><button type="button" class="btn btn-success" ng-click="scoreCard(5)">4</button></div>
+				</div>
+
+			</div>
+			<p>Due: {{prettyDue(card)}} <br/>
+			   Score: {{secondsToFormattedString(card.score)}}</p>
+			<a ng-href="#edit/{{cardEncodedId()}}">Edit Card</a>
+
+
+		</div>
+		<div class="previousCard" ng-if="previousCard">
+			<h2>Previous Card</h2>
+			<h3 ng-bind-html="furigana(previousCard.question)"></h3>
+			<p>({{previousCard.questionType}} -> {{previousCard.answerType}})</p>
+			<p>Easiness went from {{easinessWas | number:2}} to {{previousCard.easiness | number:2}}</p>
+			<p>Due: {{prettyDue(previousCard)}} <br/>
+			   Score: {{secondsToFormattedString(previousCard.score)}}</p>
+		</div>
+		<div class="studySettings">
+			Min Delay:
+			<input class="form-control" type="number" ng-model="minDelta" ng-change="updateMinDelta()">
+			<br/>
+			Total Score Last Update: {{secondsToFormattedString(totalScoreLastUpdate)}} <br/>
+			Total Score: {{secondsToFormattedString(totalScore)}} <a ng-click="resetTotalScore()">reset</a>
+			<br/>
+			<button ng-disabled="updatingIsDue" type="button" class="btn btn-default btn-xs" ng-click="updateIsDue()">Check for Due Cards</button>
+
+		</div>
+	</div>
+</div>
